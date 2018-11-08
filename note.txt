@@ -1,0 +1,15 @@
+1 . Execution contexts :
+A box, a container or a wrapper which stores variables an in which a piece of our code is evaluated and executed
+
+Execution contexts object :
+1 . Variable object
+2 . Scope chain
+3 . "This" Variable
+
+=====================
+1 . Creation phase
+    A . Creation of the Variable Object(VO)
+    B . Creation Scope chain
+    C . Determine value of "This" value
+2 . Execution phase
+    The code of function that generated the current execution context is ran line by line
