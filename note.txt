@@ -20,3 +20,7 @@ Execution contexts object :
 - The Constructor's prototype property is NOT the prototype of the Constructor itself, it's the prototype of ALL instances that are created through it.
 - When a certain method (or property) is called, the search starts in the object itself, and if it cannot found, the search move on to the object's prototype. This continues until the method is found: prototype chain.
 
+=======================
+Closures:
+An inner function has always access to the variables and parameters of its outer function, even after the outer function has returned
+
