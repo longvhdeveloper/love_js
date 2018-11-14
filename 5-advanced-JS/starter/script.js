@@ -306,3 +306,73 @@ c) correct answer (I would use a number for this)
 
 7. Suppose this code would be a plugin for other programmers to use in their code. So make sure that all your code is private and doesn't interfere with the other programmers code (Hint: we learned a special technique to do exactly that).
 */
+
+(function() {
+  function Question(question, answers, correctAnwer) {
+    this.question = question;
+    this.answers = answers;
+    this.correctAnwer = correctAnwer;
+  }
+
+  Question.prototype.display = function() {
+    console.log(this.question);
+    for (var i = 0; i < this.answers.length; i++) {
+      console.log(i + 1 + ". " + this.answers[i]);
+    }
+  };
+
+  Question.prototype.checkAnswer = function(userAnswer) {
+    if (userAnswer === this.correctAnwer) {
+      console.log("You are correct !");
+    } else {
+      console.log("You aren't correct !");
+    }
+  };
+
+  var question1 = new Question(
+    "Is Javascript scripting language ?",
+    ["No", "Yes"],
+    2
+  );
+
+  var question2 = new Question(
+    "Is NodeJs base Javascript language ?",
+    ["Yes", "No"],
+    1
+  );
+
+  // Always display next question
+  while (true) {
+    var chooseQuestion = getQuestion();
+
+    // Display question
+    chooseQuestion.display();
+
+    // Using prompt to get answer from user
+    var userAnswer = prompt("Please enter you answer: ");
+
+    if (userAnswer === "exit") {
+      break;
+    }
+
+    // Parse user answer to number
+    userAnswer = Number.parseInt(userAnswer);
+
+    // Check user answer
+    chooseQuestion.checkAnswer(userAnswer);
+  }
+
+  /**
+   * Get question by random and display question
+   */
+  function getQuestion() {
+    var questions = [question1, question2];
+
+    // Generate random question
+    var question = Math.round(Math.random());
+
+    // display question
+    var chooseQuestion = questions[question];
+    return chooseQuestion;
+  }
+})();
