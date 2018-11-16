@@ -321,12 +321,21 @@ c) correct answer (I would use a number for this)
     }
   };
 
-  Question.prototype.checkAnswer = function(userAnswer) {
+  Question.prototype.checkAnswer = function(userAnswer, callback) {
+    var sc;
     if (userAnswer === this.correctAnwer) {
       console.log("You are correct !");
+      sc = callback(true);
     } else {
       console.log("You aren't correct !");
+      sc = callback(false);
     }
+    this.displayScore(sc);
+  };
+
+  Question.prototype.displayScore = function(score) {
+    console.log("Your current score: " + score);
+    console.log("=============================");
   };
 
   var question1 = new Question(
@@ -341,9 +350,36 @@ c) correct answer (I would use a number for this)
     1
   );
 
+  var questions = [question1, question2];
+
+  var keepScore = score();
+
   // Always display next question
-  while (true) {
-    var chooseQuestion = getQuestion();
+  getQuestion();
+
+  ///////////////////////////////////////////////////////////////////////
+  /**
+   * Calc score function
+   */
+  function score() {
+    var sc = 0;
+    return function(correct) {
+      if (correct) {
+        sc++;
+      }
+      return sc;
+    };
+  }
+
+  /**
+   * Get question by random and display question
+   */
+  function getQuestion() {
+    // Generate random question
+    var question = Math.floor(Math.random() * questions.length);
+
+    // display question
+    var chooseQuestion = questions[question];
 
     // Display question
     chooseQuestion.display();
@@ -352,27 +388,15 @@ c) correct answer (I would use a number for this)
     var userAnswer = prompt("Please enter you answer: ");
 
     if (userAnswer === "exit") {
-      break;
+      return;
     }
 
     // Parse user answer to number
     userAnswer = Number.parseInt(userAnswer);
 
     // Check user answer
-    chooseQuestion.checkAnswer(userAnswer);
-  }
+    chooseQuestion.checkAnswer(userAnswer, keepScore);
 
-  /**
-   * Get question by random and display question
-   */
-  function getQuestion() {
-    var questions = [question1, question2];
-
-    // Generate random question
-    var question = Math.round(Math.random());
-
-    // display question
-    var chooseQuestion = questions[question];
-    return chooseQuestion;
+    getQuestion();
   }
 })();
