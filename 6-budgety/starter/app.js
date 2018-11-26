@@ -58,6 +58,18 @@ var budgetController = (function() {
       return newItem;
     },
 
+    deleteItem: function(type, id) {
+      var ids, index;
+      // id  = 3
+      var ids = data.allItems[type].map(function(current) {
+        return current.id;
+      });
+      index = ids.indexOf(id);
+      if (index > -1) {
+        data.allItems[type].splice(index, 1);
+      }
+    },
+
     calculateBudget: function() {
       // calculate total income and expense
       calculateTotal("expense");
@@ -98,7 +110,8 @@ var UIController = (function() {
     budgetLabel: ".budget__value",
     incomeLabel: ".budget__income--value",
     expenseLabel: ".budget__expenses--value",
-    percentageLabel: ".budget__expenses--percentage"
+    percentageLabel: ".budget__expenses--percentage",
+    container: ".container"
   };
   return {
     getInput: function() {
@@ -127,6 +140,11 @@ var UIController = (function() {
       newhtml = newhtml.replace("%description%", obj.description);
       //Insert HTML
       document.querySelector(element).insertAdjacentHTML("beforeend", newhtml);
+    },
+
+    removeItem: function(selectorID) {
+      var element = document.getElementById(selectorID);
+      element.parentNode.removeChild(element);
     },
 
     clearField: function() {
@@ -175,6 +193,10 @@ var controller = (function(budget, UI) {
         controlAddItem();
       }
     });
+
+    document
+      .querySelector(DOMString.container)
+      .addEventListener("click", controlDeleteItem);
   };
 
   var updateBuget = function() {
@@ -194,13 +216,29 @@ var controller = (function(budget, UI) {
     if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
       // Add item to the budget controller
       var newItem = budget.addItem(input.type, input.description, input.value);
-
       // Add item to the UI
       UI.addListItem(newItem, input.type);
       // Clear the field input
       UI.clearField();
-
       // Calculate and update budget
+      updateBuget();
+    }
+  };
+
+  var controlDeleteItem = function(event) {
+    var itemId, splitId, type, id;
+    itemId = event.target.parentNode.parentNode.parentNode.parentNode.id;
+
+    if (itemId) {
+      //income-0, expense-1
+      splitId = itemId.split("-");
+      type = splitId[0];
+      id = parseInt(splitId[1]);
+      // delete item from data structure
+      budget.deleteItem(type, id);
+      // delete item from ui
+      UI.removeItem(itemId);
+      // update and show new budget
       updateBuget();
     }
   };
