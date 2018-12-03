@@ -249,7 +249,7 @@
 
 ////////////////////////////////////
 // Arrays
-const boxes = document.querySelectorAll(".box");
+// const boxes = document.querySelectorAll(".box");
 
 // ES5
 // var boxesArr5 = Array.prototype.slice.call(boxes);
@@ -278,19 +278,205 @@ const boxes = document.querySelectorAll(".box");
 // console.log(ages[full.indexOf(true)]);
 
 // ES6
-const boxesArr6 = Array.from(boxes);
-boxesArr6.forEach(element => {
-  element.style.backgroundColor = "dodgerblue";
-});
+// const boxesArr6 = Array.from(boxes);
+// boxesArr6.forEach(element => {
+//   element.style.backgroundColor = "dodgerblue";
+// });
 
-for (const element of boxesArr6) {
-  if (element.className.includes("box blue")) {
-    continue;
+// for (const element of boxesArr6) {
+//   if (element.className.includes("box blue")) {
+//     continue;
+//   }
+//   element.textContent = "I changed to blue !";
+// }
+
+// const ages = [12, 17, 8, 21, 14, 11];
+// let index = ages.findIndex(cur => cur >= 18);
+// console.log(index);
+// console.log(ages.find(cur => cur >= 18));
+
+////////////////////////////////////
+// Spread operator
+
+// function addFourAges(a, b, c, d) {
+//   return a + b + c + d;
+// }
+
+// var sum1 = addFourAges(18, 30, 12, 21);
+// console.log(sum1);
+
+// // ES5
+// var ages = [18, 30, 12, 21];
+// var sum2 = addFourAges.apply(null, ages);
+// console.log(sum2);
+
+// // ES6
+// const max3 = addFourAges(...ages);
+// console.log(max3);
+
+// const familySmith = ["John", "Jane", "Mark"];
+
+// const familyMiler = ["Mary", "Bob", "Ann"];
+
+// const bigFamily = [...familySmith, "Lily", ...familyMiler];
+// console.log(bigFamily);
+
+// const h = document.querySelector("h1");
+// console.log(h);
+
+// const box = document.querySelectorAll(".box");
+
+// const all = [h, ...box];
+
+// Array.from(all).forEach(item => (item.style.color = "purple"));
+
+////////////////////////////////////
+// Rest parameters
+
+// // ES5
+// function isFullAge5() {
+//   //console.log(arguments);
+//   var argArr = Array.prototype.slice.call(arguments);
+//   argArr.forEach(function(curr) {
+//     console.log(new Date().getFullYear() - curr >= 18);
+//   });
+// }
+
+// isFullAge5(1998, 1999, 1965);
+// isFullAge5(1998, 1999, 1965, 1989);
+
+// // ES6
+// function isFullAge6(...years) {
+//   //   console.log(years);
+//   years.forEach(current => {
+//     console.log(new Date().getFullYear() - current > 18);
+//   });
+// }
+
+// isFullAge6(1998, 1999, 1965);
+
+// // ES5
+// function isFullAge5(limit) {
+//   //console.log(arguments);
+//   var argArr = Array.prototype.slice.call(arguments);
+//   argArr.forEach(function(curr) {
+//     console.log(new Date().getFullYear() - curr >= limit);
+//   });
+// }
+
+// isFullAge5(21, 1998, 1999, 1965);
+// //isFullAge5(21, 1998, 1999, 1965, 1989);
+
+// // ES6
+// function isFullAge6(limit, ...years) {
+//   //   console.log(years);
+//   years.forEach(current => {
+//     console.log(new Date().getFullYear() - current > limit);
+//   });
+// }
+
+// isFullAge6(20, 1998, 1999, 1965);
+
+////////////////////////////////////
+// Default parameters
+
+// ES5
+// function SmithPerson(firstName, yearOfBirth, lastName, nationality) {
+//   lastName = lastName === undefined ? "Smith" : lastName;
+//   nationality = nationality === undefined ? "American" : nationality;
+
+//   this.firstName = firstName;
+//   this.lastName = lastName;
+//   this.yearOfBirth = yearOfBirth;
+//   this.nationality = nationality;
+// }
+
+// ES6
+// function SmithPerson(
+//   firstName,
+//   yearOfBirth,
+//   lastName = "Smith",
+//   nationality = "American"
+// ) {
+//   this.firstName = firstName;
+//   this.lastName = lastName;
+//   this.yearOfBirth = yearOfBirth;
+//   this.nationality = nationality;
+// }
+
+// var john = new SmithPerson("John", 1990);
+// var emily = new SmithPerson("Emily", 1993, "Diaz", "Spanish");
+
+////////////////////////////////////
+// Maps
+
+// const question = new Map();
+// question.set(
+//   "question",
+//   "What is the offical name of latest major Javascript version?"
+// );
+// question.set(1, "ES5");
+// question.set(2, "ES6");
+// question.set(3, "ES2015");
+// question.set(4, "ES7");
+// question.set("correct", 3);
+// question.set(true, "Correct answer :D");
+// question.set(false, "Wrong, please try again!");
+
+// console.log(question.get("question"));
+// console.log(question.size);
+
+// if (question.has(4)) {
+//   //question.delete(4);
+//   console.log("Answer 4 is here");
+// }
+
+// //question.clear();
+
+// question.forEach((value, key) =>
+//   console.log(`This is ${key}, and it's set to ${value}`)
+// );
+
+// for (let [key, value] of question.entries()) {
+//   if (typeof key === "number") {
+//     console.log(`Answer ${key}: ${value}`);
+//   }
+// }
+
+// const answer = parseInt(prompt("Write the correct answer"));
+// console.log(question.get(answer === question.get("correct")));
+
+////////////////////////////////////
+// Classes
+
+// ES5
+var Person = function(name, yearOfBirth, job) {
+  this.name = name;
+  this.yearOfBirth = yearOfBirth;
+  this.job = job;
+};
+
+Person.prototype.calculateAge = function() {
+  var age = new Date().getFullYear() - this.yearOfBirth;
+};
+
+var john5 = new Person("John", 1990, "teacher");
+
+// ES6
+class Person6 {
+  constructor(name, yearOfBirth, job) {
+    this.name = name;
+    this.yearOfBirth = yearOfBirth;
+    this.job = job;
   }
-  element.textContent = "I changed to blue !";
+  calculateAge() {
+    var age = new Date().getFullYear() - this.yearOfBirth;
+  }
+
+  static greeting() {
+    console.log("hey there");
+  }
 }
 
-const ages = [12, 17, 8, 21, 14, 11];
-let index = ages.findIndex(cur => cur >= 18);
-console.log(index);
-console.log(ages.find(cur => cur >= 18));
+const john6 = new Person6("John", 1990, "teacher");
+Person6.greeting();
